@@ -1,16 +1,23 @@
-FROM node:lts-alpine
-# install simple http server for serving static content
-RUN npm install -g http-server
-# make the 'app' folder the current working directory
+# Usa l'immagine ufficiale di Node.js come base
+FROM node:14
+
+# Imposta la directory di lavoro
 WORKDIR /app
-# copy 'package.json' to install dependencies
+
+# Copia i file necessari
 COPY package*.json ./
-# install dependencies
+
+# Installa le dipendenze
 RUN npm install
-# copy files and folders to the current working directory (i.e. 'app' folder)
+
+# Copia tutti i file del progetto
 COPY . .
-# build app for production with minification
-RUN npm install http-server -g
+
+# Compila l'app per la produzione
 RUN npm run build
+
+# Espone la porta 8080
 EXPOSE 8080
-CMD [ "http-server", "dist" ] 
+
+# Avvia l'applicazione
+CMD ["npm", "run", "serve"]
