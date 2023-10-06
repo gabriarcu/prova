@@ -4,7 +4,7 @@ FROM node:14-alpine
 # Set environment variables
 ENV APP_HOME=/app
 ENV HOST=0.0.0.0
-ENV PORT=8081
+ENV PORT=8080
 
 # Set working directory
 WORKDIR $APP_HOME
