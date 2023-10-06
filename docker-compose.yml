@@ -14,3 +14,7 @@ services:
 networks:
   vue-network:
     driver: bridge
+services:
+  vue-app:
+    command: >
+      sh -c "npm run serve"
