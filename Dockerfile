@@ -1,22 +1,28 @@
-FROM node:lts-alpine
+# Base image
+FROM node:14-alpine
 
-# install simple http server for serving static content
-RUN npm install -g http-server
+# Set environment variables
+ENV APP_HOME=/app
+ENV HOST=0.0.0.0
+ENV PORT=8080
 
-# make the 'app' folder the current working directory
-WORKDIR /app
+# Set working directory
+WORKDIR $APP_HOME
 
-# copy both 'package.json' and 'package-lock.json' (if available)
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# install project dependencies
+# Install dependencies
 RUN npm install
 
-# copy project files and folders to the current working directory (i.e. 'app' folder)
+# Copy the rest of the application code
 COPY . .
 
-# build app for production with minification
+# Build the Vue.js application
 RUN npm run build
 
-EXPOSE 8080
-CMD [ "http-server", "dist" ]
+# Expose the port
+EXPOSE $PORT
+
+# Start the application
+CMD ["npm", "run", "serve"]
